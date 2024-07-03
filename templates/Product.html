@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ProductName}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .custom-div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        table {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+            text-transform: uppercase;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #e2e6ea;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #333;
+        }
+        .navbar-nav .nav-link {
+            color: #333;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        /* Style for the horizontal scrolling section */
+        .similar-products {
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-top: 20px;
+            padding: 10px 0;
+        }
+        .product-box {
+            display: inline-block;
+            width: 200px;
+            margin-right: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .product-box h4 {
+            margin-bottom: 10px; /* Adjust spacing */
+        }
+        .product-box p {
+            margin-bottom: 5px; /* Adjust spacing */
+            word-wrap: break-word; /* Wrap long text */
+        }
+        .review-title {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        }
+
+        .review-rating {
+        font-size: 1rem;
+        margin-bottom: 5px;
+        }
+
+        .review-description {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        }
+
+        .form-container {
+            text-align: right; /* Align the form to the right */
+            margin-top: 20px; /* Add some top margin */
+        }
+
+        /* Style the input buttons */
+        input[type="button"] {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        /* Style the number input */
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* Style the submit button */
+        input[type="submit"] {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Style the submit button on hover */
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url_for('homePageCustomer') }}">OnlineStore</a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <form class="form-inline my-4 my-lg-0" method="post" action="{{ url_for('searchPage') }}">
+            <input class="form-control mr-sm-1" type="search" name="searhingItems" placeholder="Search" aria-label="Search"/>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav">
+            {% if custVar %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('CustomerProfile') }}"><i class="fas fa-user mx-3 fa-lg"></i></a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('helloworld') }}">Login as Seller</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mr-sm-3" href="{{ url_for('register_user') }}">Register</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="my-3 container shadow-sm p-3 mb-5 bg-white rounded">
+    <h2 class="my-3">{{ProductName}}</h2>
+    <h3 class="my-3"><strong>Price: $</strong>{{Price}}</h3>
+    <h3 class="my-3"><strong>Supplier: </strong>{{SupplierName}} [{{SupplierID}}]</h3>
+    <h3 class="my-3">{{ProductDescription}}</h3>
+    <div class="form-container">
+            <!-- <input type="button" value="-" onclick="decrement()">
+            <input type="number" id="quantity" name="quantity" value="1" readonly>
+            <input type="button" value="+" onclick="increment()"> -->
+            {% if custVar %}
+            <form method="post" action="{{ url_for('add_to_cart', ProductID = ProductID) }}">
+                <input type="submit" class="btn btn-primary" value="Add to your cart">    
+            </form>
+            {% else %}
+            <form>
+                <input type="submit" class="btn btn-primary" value="Add to your cart">    
+            </form>
+            {% endif %}
+            
+    </div>
+</div>
+<div class="my container shadow-sm p-3 mb-5 bg-white rounded">
+    <h3 class="my"><strong>Comments: </strong></h3>
+    {% for review in productComments %}
+    <p class="my-2">
+        <h4 class="review-title mx-3"><strong>{{review[0]}}</strong> {{review[1]}}</h4>
+        <h4 class="review-rating mx-3"><strong>Ratings:</strong> {{review[2]}} / 5</h4>
+        <p class="review-description mx-3">{{review[3]}}</p>
+    </p>
+    {% endfor %}
+    <!-- Similar Products Section -->
+    <h3 class="my-3"><strong>Similar Products:</strong></h3>
+    <div class="similar-products">
+        {% for product in similar_products %}
+        <div class="product-box">
+            <a href="{{ url_for('product_details', product_id = product[2]) }}" style="text-decoration: none; color: inherit;" >{{ product[0] }}</a>
+            <p>Price: ${{ product[1] }}</p>
+            <p>Supplier ID: {{ product[3] }}</p>
+            <!-- Add more product details as needed -->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function increment() {
+        var input = document.getElementById('quantity');
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decrement() {
+        var input = document.getElementById('quantity');
+        var value = parseInt(input.value) - 1;
+        if (value < 1) {
+            value = 1; // Ensure quantity doesn't go below 1
+        }
+        input.value = value;
+    }
+</script>
+</body>
+</html>
