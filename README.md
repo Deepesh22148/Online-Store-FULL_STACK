@@ -40,5 +40,7 @@ This structured approach ensures that customers, sellers, and admins each have t
 To run this application, run all the SQL files to create the necessary tables required for this prototype
 and then navigate to the Customer.py file and change the password to your local SQL password at line 9
 and then run the following commands:
+ 
  .\env\Scripts\activate.ps1
+ 
  python python Customer.py
