@@ -34,3 +34,11 @@ The "View Orders" section displays all orders placed for the seller's products, 
 The "Seller Profile" section shows the seller's details, such as name, contact information, and business address. Sellers can update this information in the "Edit Profile" section.
 
 This structured approach ensures that customers, sellers, and admins each have tailored features and functionalities to enhance their experience and streamline the management of the online retail store.
+
+
+# Instructions to Run
+To run this application, run all the SQL files to create the necessary tables required for this prototype
+and then navigate to the Customer.py file and change the password to your local SQL password at line 9
+and then run the following commands:
+ .\env\Scripts\activate.ps1
+ python python Customer.py
